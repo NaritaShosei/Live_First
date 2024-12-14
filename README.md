@@ -1,2 +1,2 @@
 ライセンス表記が必要
-スペシャルサンクス　https://github.com/GotouTamaki
+Shader Decale　スペシャルサンクス　https://github.com/GotouTamaki
