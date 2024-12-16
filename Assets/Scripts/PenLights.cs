@@ -3,6 +3,7 @@ using Unity.Collections;
 using UnityEngine;
 using Unity.Burst;
 using Unity.Jobs;
+using Random = Unity.Mathematics.Random;
 
 public class PenLights : MonoBehaviour
 {
@@ -52,18 +53,12 @@ public class PenLights : MonoBehaviour
     }
     void ChangeStick()
     {
-        //NativeArrayにランダムな値を保存
-        for (int i = 0; i < _stickAnimList.Count; i++)
-        {
-            _randomSpeeds[i] = Random.Range(0.5f, 1f);
-            _randomIndices[i] = Random.Range(0, _materialList.Count);
-        }
-
         //ジョブシステムにデータを渡す
         var job = new PenLightJob()
         {
             randomSpeeds = _randomSpeeds,
-            randomIndices = _randomIndices
+            randomIndices = _randomIndices,
+            materialCount = _materialList.Count,
         };
 
         //ジョブを実行し、並列処理をスケジュールする　
@@ -94,9 +89,12 @@ public class PenLights : MonoBehaviour
     {
         public NativeArray<float> randomSpeeds;
         public NativeArray<int> randomIndices;
+        public int materialCount;
         public void Execute(int index)
         {
-
+            Random random = new Random(((uint)index + 1) * 1234);
+            randomSpeeds[index] = random.NextFloat(0.5f, 1);
+            randomIndices[index] = random.NextInt(0, materialCount);
         }
     }
 }
