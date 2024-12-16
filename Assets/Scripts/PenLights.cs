@@ -15,7 +15,7 @@ public class PenLights : MonoBehaviour
     NativeArray<float> _randomSpeeds;
     NativeArray<int> _randomIndices;
 
-    float _interval = 2;
+    [SerializeField, Range(0, 10)] float _interval = 2;
     float _timer;
 
     void Start()
@@ -32,11 +32,11 @@ public class PenLights : MonoBehaviour
         {
             _stickAnimList.Add(stick);
         }
-
+        Debug.Log(_stickAnimList.Count);
         //第1引数は配列の長さ、第2引数はどのようにメモリを管理するかを指定する
         //Allocator.Temp = 短命な配列（1フレーム内で完結する処理向け）
         //Allocator.TempJob = ジョブシステムのための短命な配列（最大4フレームまで使用可能）
-        //Allocator.Persistent = 長期間保持するデータ（複数フレームをまたぐ）
+        //Allocator.Persistent = 長期間保持するデータ（複数フレームをまたぐ）今回はこれ
         _randomSpeeds = new NativeArray<float>(_stickAnimList.Count, Allocator.Persistent);
         _randomIndices = new NativeArray<int>(_stickAnimList.Count, Allocator.Persistent);
 
