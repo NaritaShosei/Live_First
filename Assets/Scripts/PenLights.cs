@@ -93,7 +93,8 @@ public class PenLights : MonoBehaviour
         public void Execute(int index)
         {
             Random random = new Random(((uint)index + 1) * 1234);
-            randomSpeeds[index] = random.NextFloat(0.5f, 1);
+            randomSpeeds[index] = 1;
+            //randomSpeeds[index] = random.NextFloat(0.5f, 1);
             randomIndices[index] = random.NextInt(0, materialCount);
         }
     }
