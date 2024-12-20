@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Burst;
 using Unity.Jobs;
 using Random = Unity.Mathematics.Random;
+using System;
 
 public class PenLights : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class PenLights : MonoBehaviour
 
     void Start()
     {
+        _timer = Time.time;
         StartStick();
         ChangeStick();
     }
@@ -46,20 +48,19 @@ public class PenLights : MonoBehaviour
     {
         if (Time.time > _timer + _interval)
         {
+            _timer = Time.time;
             ChangeStick();
         }
     }
     void ChangeStick()
     {
-        _timer = Time.time;
-
         //ジョブシステムにデータを渡す
         var job = new PenLightJob()
         {
             randomSpeeds = _randomSpeeds,
             randomIndices = _randomIndices,
             materialCount = _materialList.Count,
-            randomSeed = (uint)((_timer + 0.001f) * 1000),
+            Random = new Random((uint)Time.frameCount),
         };
 
         //ジョブを実行し、並列処理をスケジュールする　
@@ -91,13 +92,12 @@ public class PenLights : MonoBehaviour
         public NativeArray<float> randomSpeeds;
         public NativeArray<int> randomIndices;
         public int materialCount;
-        public uint randomSeed;
+        public Random Random;
         public void Execute(int index)
         {
-            Random random = new Random((randomSeed * randomSeed) + (uint)index * 1234);
             randomSpeeds[index] = 1;
             //randomSpeeds[index] = random.NextFloat(0.99f, 1);
-            randomIndices[index] = random.NextInt(0, materialCount);
+            randomIndices[index] = Random.NextInt(0, materialCount);
         }
     }
 }
