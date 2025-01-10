@@ -11,6 +11,7 @@ public class PenLights : MonoBehaviour
     [SerializeField] List<Material> _materialList = new();
 
     List<Animator> _stickAnimList = new();
+    List<MeshRenderer> _stickRendererList = new();
 
     //C#ジョブシステムとBurstコンパイラと共に使われるデータ型の一つ
     //ヒープメモリではなく、ネイティブメモリ上に確保される
@@ -33,6 +34,7 @@ public class PenLights : MonoBehaviour
         foreach (var stick in sticks)
         {
             _stickAnimList.Add(stick);
+            _stickRendererList.Add(stick.gameObject.GetComponentInChildren<MeshRenderer>());
         }
         Debug.Log(_stickAnimList.Count);
         //第1引数は配列の長さ、第2引数はどのようにメモリを管理するかを指定する
@@ -75,7 +77,7 @@ public class PenLights : MonoBehaviour
         for (int i = 0; i < _stickAnimList.Count; i++)
         {
             _stickAnimList[i].speed = _randomSpeeds[i];
-            _stickAnimList[i].gameObject.GetComponentInChildren<MeshRenderer>().material = _materialList[_randomIndices[i]];
+            _stickRendererList[i].material = _materialList[_randomIndices[i]];
         }
     }
     void OnDestroy()
