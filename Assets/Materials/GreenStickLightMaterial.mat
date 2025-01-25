@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlueStickLightMaterial
-  m_Shader: {fileID: 4800000, guid: df12117ecd77c31469c224178886498e, type: 3}
+  m_Name: GreenStickLightMaterial
+  m_Shader: {fileID: 4800000, guid: 165365ab7100a044ca85fc8c33548a62, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -608,8 +608,8 @@ Material:
     - _DitherMaxValue: 255
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 1
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
     - _DstBlendAlphaFA: 1
     - _DstBlendFA: 1
     - _DummyProperty: 0
@@ -1072,7 +1072,7 @@ Material:
     - _UseClippingCanceller: 0
     - _UseDither: 0
     - _UseEmission: 1
-    - _UseEmission2nd: 1
+    - _UseEmission2nd: 0
     - _UseEmissiveIntensity: 0
     - _UseGlitter: 0
     - _UseMain2ndTex: 0
@@ -1129,10 +1129,10 @@ Material:
     - _AudioLinkVertexUVParams: {r: 0.25, g: 0, b: 0, a: 0.125}
     - _BackfaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BacklightColor: {r: 0.85, g: 0.8, b: 0.7, a: 1}
-    - _BaseColor: {r: 0, g: 0.32774973, b: 1, a: 1}
+    - _BaseColor: {r: 0.13013652, g: 0.9911022, b: 0.17144115, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColorMaskColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0, g: 0.3277497, b: 1, a: 1}
+    - _Color: {r: 0.13013652, g: 0.9911022, b: 0.17144115, a: 1}
     - _Color2nd: {r: 1, g: 1, b: 1, a: 1}
     - _Color3rd: {r: 1, g: 1, b: 1, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
@@ -1147,11 +1147,11 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _Emission2ndBlendMask_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
     - _Emission2ndBlink: {r: 0, g: 0, b: 3.141593, a: 0}
-    - _Emission2ndColor: {r: 0.11160554, g: 0.11532904, b: 0.12452829, a: 1}
+    - _Emission2ndColor: {r: 1, g: 0.19433957, b: 0.19433957, a: 1}
     - _Emission2ndMap_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionBlendMask_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionBlink: {r: 0, g: 0, b: 3.141593, a: 0}
-    - _EmissionColor: {r: 0.12100388, g: 0.36832142, b: 0.6226415, a: 1}
+    - _EmissionColor: {r: 0.025186857, g: 1, b: 0.116970696, a: 1}
     - _EmissionMap_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
@@ -1204,12 +1204,12 @@ Material:
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 1}
     - _RimShadeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 1}
-    - _Shadow2ndColor: {r: 0.51335573, g: 0.49065855, b: 0.645283, a: 1}
-    - _Shadow3rdColor: {r: 0.35406902, g: 0.5079033, b: 0.8415094, a: 0}
+    - _Shadow2ndColor: {r: 0.6552405, g: 0.7132075, b: 0.63381267, a: 1}
+    - _Shadow3rdColor: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowAOShift: {r: 1, g: 0, b: 1, a: 0}
     - _ShadowAOShift2: {r: 1, g: 0, b: 1, a: 0}
-    - _ShadowBorderColor: {r: 0.34152362, g: 0.54496527, b: 0.6679245, a: 1}
-    - _ShadowColor: {r: 0.530445, g: 0.6047079, b: 0.7660377, a: 1}
+    - _ShadowBorderColor: {r: 0.050069485, g: 0.690566, b: 0, a: 1}
+    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}

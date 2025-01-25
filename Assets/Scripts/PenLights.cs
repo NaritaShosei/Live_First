@@ -5,13 +5,18 @@ using Unity.Burst;
 using Unity.Jobs;
 using Random = Unity.Mathematics.Random;
 using System;
+using System.Linq;
 
+/// <summary>
+/// 仕様変更のため使わないが残しておく
+/// </summary>
 public class PenLights : MonoBehaviour
 {
     [SerializeField] List<Material> _materialList = new();
+    [SerializeField] List<GameObject> _stickBlockList = new();
 
     List<Animator> _stickAnimList = new();
-    List<MeshRenderer> _stickRendererList = new();
+    Queue<MeshRenderer> _stickRendererQueue = new();
 
     //C#ジョブシステムとBurstコンパイラと共に使われるデータ型の一つ
     //ヒープメモリではなく、ネイティブメモリ上に確保される
@@ -34,7 +39,13 @@ public class PenLights : MonoBehaviour
         foreach (var stick in sticks)
         {
             _stickAnimList.Add(stick);
-            _stickRendererList.Add(stick.gameObject.GetComponentInChildren<MeshRenderer>());
+        }
+        for (int i = 0; i < _stickBlockList.Count; i++)
+        {
+            for (int j = 0; j < _stickBlockList[i].transform.childCount; j++)
+            {
+                _stickRendererQueue.Enqueue(_stickBlockList[i].transform.GetChild(j).transform.GetChild(0).GetComponent<MeshRenderer>());
+            }
         }
         Debug.Log(_stickAnimList.Count);
         //第1引数は配列の長さ、第2引数はどのようにメモリを管理するかを指定する
@@ -43,7 +54,6 @@ public class PenLights : MonoBehaviour
         //Allocator.Persistent = 長期間保持するデータ（複数フレームをまたぐ）今回はこれ
         _randomSpeeds = new NativeArray<float>(_stickAnimList.Count, Allocator.Persistent);
         _randomIndices = new NativeArray<int>(_stickAnimList.Count, Allocator.Persistent);
-
     }
 
     void Update()
@@ -77,14 +87,20 @@ public class PenLights : MonoBehaviour
         for (int i = 0; i < _stickAnimList.Count; i++)
         {
             _stickAnimList[i].speed = _randomSpeeds[i];
-            _stickRendererList[i].material = _materialList[_randomIndices[i]];
+        }
+        for (int i = 0; i < _stickBlockList.Count; i++)
+        {
+            for (int j = _stickBlockList[i].transform.childCount - 1; j > 0; j--)
+            {
+                var stick = _stickRendererQueue.Dequeue();
+                stick.material = _materialList[_randomIndices[i]];
+            }
         }
     }
     void OnDestroy()
     {
         //NativeArray はメモリを手動で管理する必要があるため、破棄処理を行う
         if (_randomSpeeds.IsCreated) _randomSpeeds.Dispose();
-        if (_randomIndices.IsCreated) _randomIndices.Dispose();
     }
 
 
@@ -98,7 +114,6 @@ public class PenLights : MonoBehaviour
         public void Execute(int index)
         {
             randomSpeeds[index] = 1;
-            //randomSpeeds[index] = random.NextFloat(0.99f, 1);
             randomIndices[index] = Random.NextInt(0, materialCount);
         }
     }
