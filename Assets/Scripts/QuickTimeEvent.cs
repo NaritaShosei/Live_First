@@ -32,9 +32,13 @@ public class QuickTimeEvent : MonoBehaviour
     {
         if (_eventQueue.Count > 0)
         {
-            if (_playableDirector.time <= _eventQueue.Peek() + _graceTime)
+            if (_playableDirector.time <= _eventQueue.Peek() - _graceTime)
             {
 
+            }
+            if (_playableDirector.time >= _eventQueue.Peek() + _graceTime)
+            {
+                _eventQueue.Dequeue();
             }
         }
     }
