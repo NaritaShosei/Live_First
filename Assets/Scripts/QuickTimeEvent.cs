@@ -11,6 +11,7 @@ public class QuickTimeEvent : MonoBehaviour
     [SerializeField] PlayableDirector _playableDirector;
     [SerializeField, Header("ノーツのトラックの名前")] string _trackName;
     [SerializeField, Header("判定の猶予時間")] float _graceTime = 0.5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
