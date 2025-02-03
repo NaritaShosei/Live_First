@@ -16,7 +16,7 @@ MonoBehaviour:
   - title: Base Loop
     position:
       serializedVersion: 2
-      x: 852
+      x: 853
       y: -1434
       width: 475
       height: 1167
@@ -30,13 +30,24 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614662}
       id: 0
       isStickyNote: 0
+  - title: New Group Node
+    position:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 100
+      height: 100
+    contents:
+    - model: {fileID: 8926484042661614896}
+      id: 0
+      isStickyNote: 0
   stickyNoteInfos: []
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 652
+    x: 0
     y: -1434
-    width: 676
+    width: 1328
     height: 1563
 --- !u!114 &114350483966674976
 MonoBehaviour:
@@ -1238,7 +1249,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614879}
   - {fileID: 8926484042661614880}
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
+  m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_MasterSlot: {fileID: 8926484042661614876}
   m_MasterData:
