@@ -3,25 +3,31 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class LoadData : MonoBehaviour
 {
     [SerializeField] PlayableDirector _director;
+    bool _isLoaded = false;
+    [SerializeField] Text _startText;
+
     async void Start()
     {
+        _startText.enabled = false;
         Debug.Assert(_director != null);
-        _director.RebuildGraph();
 
         await LoadTimeLineAudio(_director);
 
-        _director.Play();
+        _isLoaded = true;
+        _startText.enabled = true;
+        //_director.Play();
     }
 
     async Task LoadTimeLineAudio(PlayableDirector director)
     {
         if (director.playableAsset is TimelineAsset timeLine)
         {
-            List<AudioClip> audioList = new();
+            HashSet<AudioClip> audioSet = new();
 
             foreach (var track in timeLine.GetOutputTracks())
             {
@@ -33,9 +39,9 @@ public class LoadData : MonoBehaviour
                         {
                             AudioClip audioClip = audioPlayable.clip;
 
-                            if (audioClip != null && !audioList.Contains(audioClip))
+                            if (audioClip != null)
                             {
-                                audioList.Add(audioClip);
+                                audioSet.Add(audioClip);
                             }
                         }
                     }
@@ -43,7 +49,7 @@ public class LoadData : MonoBehaviour
             }
 
             List<Task> loadTasks = new List<Task>();
-            foreach (var clip in audioList)
+            foreach (var clip in audioSet)
             {
                 loadTasks.Add(LoadAudioClipsAsync(clip));
             }
@@ -57,13 +63,23 @@ public class LoadData : MonoBehaviour
         if (clip == null) return;
         clip.LoadAudioData();
 
+        await Task.Yield();
+
         while (!clip.isReadyToPlay)
         {
-            await Task.Yield();
+            await Task.Delay(50);
         }
     }
     void Update()
     {
 
+    }
+
+    public void Play()
+    {
+        if (_isLoaded)
+        {
+            _director.Play();
+        }
     }
 }
