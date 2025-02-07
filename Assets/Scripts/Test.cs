@@ -1,17 +1,26 @@
 using UnityEngine;
 
-public class Test : MonoBehaviour
+/// <summary>
+/// いろいろテストするコンポーネント
+/// </summary>
+public class Test : GameManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    double _startMusicTime;
+    double StartMusicTime { get { return _startMusicTime; } }
     void Start()
     {
-        
+        _startMusicTime = AudioSettings.dspTime;
     }
 
+
+    public double GetMusicTime()
+    {
+        return AudioSettings.dspTime - _startMusicTime;
+    }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OpenWeb()

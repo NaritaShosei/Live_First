@@ -4,23 +4,25 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using DG.Tweening;
 
-public class LoadData : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] PlayableDirector _director;
     bool _isLoaded = false;
+    [SerializeField] Image _image;
     [SerializeField] Text _startText;
+    double _startMusicTime;
+    double StartMusicTime { get { return _startMusicTime; } }
 
     async void Start()
     {
-        _startText.enabled = false;
         Debug.Assert(_director != null);
 
         await LoadTimeLineAudio(_director);
+        await Task.Delay(1000);
 
-        _isLoaded = true;
-        _startText.enabled = true;
-        //_director.Play();
+        _startText.DOFade(1, 1).OnComplete(() => _isLoaded = true);
     }
 
     async Task LoadTimeLineAudio(PlayableDirector director)
@@ -72,14 +74,26 @@ public class LoadData : MonoBehaviour
     }
     void Update()
     {
-
-    }
-
-    public void Play()
-    {
         if (_isLoaded)
         {
-            _director.Play();
+            if (Input.GetMouseButtonDown(0))
+            {
+                DOTween.Sequence().
+                Append(_startText.DOFade(0, 0.5f))
+                .Join(_image.DOFade(0, 1).OnComplete(() => _director.Play()));
+                _isLoaded = false;
+                _startMusicTime = AudioSettings.dspTime;
+            }
         }
+    }
+
+    public double GetMusicTime()
+    {
+        return AudioSettings.dspTime - _startMusicTime;
+    }
+    public void LiveEnd()
+    {
+        Debug.Log("LiveEnd");
+        _image.DOFade(1, 1);
     }
 }

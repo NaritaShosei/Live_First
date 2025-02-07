@@ -1,15 +1,16 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
+//ä½¿ã‚ãªã„ã‹ã‚‚
 public class QuickTimeEvent : MonoBehaviour
 {
     Queue<float> _eventQueue = new();
     [SerializeField] TimelineAsset _timelineAsset;
     [SerializeField] PlayableDirector _playableDirector;
-    [SerializeField, Header("ƒm[ƒc‚Ìƒgƒ‰ƒbƒN‚Ì–¼‘O")] string _trackName;
-    [SerializeField, Header("”»’è‚Ì—P—\ŠÔ")] float _graceTime = 0.5f;
+    [SerializeField, Header("ãƒãƒ¼ãƒ„ã®ãƒˆãƒ©ãƒƒã‚¯ã®åå‰")] string _trackName;
+    [SerializeField, Header("åˆ¤å®šã®çŒ¶äºˆæ™‚é–“")] float _graceTime = 0.5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
