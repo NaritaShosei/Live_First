@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image _image;
     [SerializeField] Text _startText;
     double _startMusicTime;
-    double StartMusicTime { get { return _startMusicTime; } }
 
     async void Start()
     {
@@ -78,8 +77,8 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                DOTween.Sequence().
-                Append(_startText.DOFade(0, 0.5f))
+                DOTween.Sequence()
+                .Join(_startText.DOFade(0, 0.5f))
                 .Join(_image.DOFade(0, 1).OnComplete(() => _director.Play()));
                 _isLoaded = false;
                 _startMusicTime = AudioSettings.dspTime;
@@ -91,6 +90,22 @@ public class GameManager : MonoBehaviour
     {
         return AudioSettings.dspTime - _startMusicTime;
     }
+
+    public void CheckHit(float noteTime)
+    {
+        double currentTime = GetMusicTime();
+        double difference = Mathf.Abs((float)(currentTime - noteTime));
+
+        if (difference <= 0.5f)
+        {
+            Debug.Log("Nice!");
+        }
+        else
+        {
+            Debug.Log("Miss...w");
+        }
+    }
+
     public void LiveEnd()
     {
         Debug.Log("LiveEnd");

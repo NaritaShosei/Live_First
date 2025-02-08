@@ -12,8 +12,12 @@ public class Test : GameManager
         _startMusicTime = AudioSettings.dspTime;
     }
 
+    public double GetStartMusicTimes()
+    {
+        return _startMusicTime;
+    }
 
-    public double GetMusicTime()
+    public double GetMusicTimes()
     {
         return AudioSettings.dspTime - _startMusicTime;
     }
