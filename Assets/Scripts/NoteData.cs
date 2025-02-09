@@ -17,13 +17,10 @@ public class NoteData : ScriptableObject
     public class Notes
     {
         public int num;
-        public int block;
         public int LPB;
     }
     public int[] ScoreNum { get => _scoreNum; }
     [SerializeField] int[] _scoreNum;
-    public int[] ScoreBlock { get => _scoreBlock; }
-    [SerializeField] int[] _scoreBlock;
     public int BPM { get => bpm; }
     [SerializeField] int bpm;
     public int LPB { get => lpb; }
@@ -39,15 +36,12 @@ public class NoteData : ScriptableObject
         InputJson inputJson = JsonUtility.FromJson<InputJson>(inputString);
 
         _scoreNum = new int[inputJson.notes.Length];
-        _scoreBlock = new int[inputJson.notes.Length];
         bpm = inputJson.BPM;
         lpb = inputJson.notes[0].LPB;
 
         for (int i = 0; i < inputJson.notes.Length; i++)
         {
             _scoreNum[i] = inputJson.notes[i].num;
-
-            _scoreBlock[i] = inputJson.notes[i].block;
         }
     }
 #if UNITY_EDITOR
@@ -65,7 +59,6 @@ public class NoteData : ScriptableObject
                 noteData.MusicReading();
             }
         }
-
     }
 #endif
 }

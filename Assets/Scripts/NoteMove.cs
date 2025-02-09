@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 
-public class NoteManager : MonoBehaviour
+public class NoteMove : MonoBehaviour
 {
     [SerializeField] float _duration;
     RectTransform _rectTransform;

@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!223 &101459704 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 1569188833085896144, guid: 21cab6453ce9c4749850b2e0fd3ca4a6, type: 3}
+  m_PrefabInstance: {fileID: 6452342549111168810}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &121941825
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +134,8 @@ GameObject:
   m_Component:
   - component: {fileID: 121941827}
   - component: {fileID: 121941826}
-  - component: {fileID: 121941828}
+  - component: {fileID: 121941829}
+  - component: {fileID: 121941830}
   m_Layer: 0
   m_Name: Unite In The Sky (short)
   m_TagString: Untagged
@@ -249,7 +255,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &121941828
+--- !u!114 &121941829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,9 +264,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 121941825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e63a4d0d33eda4d834138ce4cdaf9b, type: 3}
+  m_Script: {fileID: 11500000, guid: e982e43b813d5a941b5b9d04310d71b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 4d9bba6a6ec402345b83d24a67bb25c2, type: 2}
+  _gameManager: {fileID: 121941830}
+  _notePrefab: {fileID: 142318177492817091, guid: b5130c0875c763c43b78ec42ebfd6bb8, type: 3}
+  _canvas: {fileID: 101459704}
+  _beatTime: 0.10715
+  _spawnOffset: 2
+--- !u!114 &121941830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121941825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c804d69cc3ffc743ad147b933d069b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _director: {fileID: 0}
+  _image: {fileID: 0}
+  _startText: {fileID: 0}
 --- !u!1 &654093175
 GameObject:
   m_ObjectHideFlags: 0

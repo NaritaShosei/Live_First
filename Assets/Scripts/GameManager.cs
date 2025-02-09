@@ -1,10 +1,10 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,12 +16,19 @@ public class GameManager : MonoBehaviour
 
     async void Start()
     {
-        Debug.Assert(_director != null);
+        try
+        {
+            _director.Play();
+            await LoadTimeLineAudio(_director);
+            await Task.Delay(1000);
 
-        await LoadTimeLineAudio(_director);
-        await Task.Delay(1000);
-
-        _startText.DOFade(1, 1).OnComplete(() => _isLoaded = true);
+            _startText.DOFade(1, 1).OnComplete(() => _isLoaded = true);
+        }
+        catch
+        {
+            _isLoaded = false;
+            _startMusicTime = AudioSettings.dspTime;
+        }
     }
 
     async Task LoadTimeLineAudio(PlayableDirector director)
@@ -78,12 +85,12 @@ public class GameManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 DOTween.Sequence()
-                .Join(_startText.DOFade(0, 0.5f))
-                .Join(_image.DOFade(0, 1).OnComplete(() =>
-                {
-                    _director.Play();
-                    _startMusicTime = AudioSettings.dspTime;
-                }));
+             .Join(_startText.DOFade(0, 0.5f))
+             .Join(_image.DOFade(0, 1).OnComplete(() =>
+             {
+                 _director.Play();
+                 _startMusicTime = AudioSettings.dspTime;
+             }));
 
                 _isLoaded = false;
             }
@@ -92,6 +99,7 @@ public class GameManager : MonoBehaviour
 
     public double GetMusicTime()
     {
+        Debug.Log(AudioSettings.dspTime - _startMusicTime);
         return AudioSettings.dspTime - _startMusicTime;
     }
 
