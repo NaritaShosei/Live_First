@@ -79,9 +79,13 @@ public class GameManager : MonoBehaviour
             {
                 DOTween.Sequence()
                 .Join(_startText.DOFade(0, 0.5f))
-                .Join(_image.DOFade(0, 1).OnComplete(() => _director.Play()));
+                .Join(_image.DOFade(0, 1).OnComplete(() =>
+                {
+                    _director.Play();
+                    _startMusicTime = AudioSettings.dspTime;
+                }));
+
                 _isLoaded = false;
-                _startMusicTime = AudioSettings.dspTime;
             }
         }
     }
