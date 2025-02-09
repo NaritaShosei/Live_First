@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NoteGenerator : MonoBehaviour
@@ -15,13 +16,16 @@ public class NoteGenerator : MonoBehaviour
 
     void Update()
     {
-        if (_data.ScoreNum.Length > _spawnCount)
+        if (_gameManager.IsPlayed)
         {
-            if ((_data.ScoreNum[_spawnCount] * _beatTime) - _spawnOffset <= _gameManager.GetMusicTime())
+            if (_data.ScoreNum.Length > _spawnCount)
             {
-                Debug.LogWarning("Spawn");
-                Instantiate(_notePrefab, _canvas.transform);
-                _spawnCount++;
+                if ((_data.ScoreNum[_spawnCount] * _beatTime) - _spawnOffset <= _gameManager.GetMusicTime())
+                {
+                    Debug.LogWarning("Spawn");
+                    Instantiate(_notePrefab, _canvas.transform);
+                    _spawnCount++;
+                }
             }
         }
     }

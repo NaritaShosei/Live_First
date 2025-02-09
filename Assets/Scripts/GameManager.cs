@@ -9,26 +9,18 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] PlayableDirector _director;
+    public bool IsPlayed { get => _isPlayed; }
+    bool _isPlayed = false;
     bool _isLoaded = false;
     [SerializeField] Image _image;
     [SerializeField] Text _startText;
-    double _startMusicTime;
 
     async void Start()
     {
-        try
-        {
-            _director.Play();
-            await LoadTimeLineAudio(_director);
-            await Task.Delay(1000);
+        await LoadTimeLineAudio(_director);
+        await Task.Delay(1000);
 
-            _startText.DOFade(1, 1).OnComplete(() => _isLoaded = true);
-        }
-        catch
-        {
-            _isLoaded = false;
-            _startMusicTime = AudioSettings.dspTime;
-        }
+        _startText.DOFade(1, 1).OnComplete(() => _isLoaded = true);
     }
 
     async Task LoadTimeLineAudio(PlayableDirector director)
@@ -80,27 +72,26 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (_isLoaded)
+        if (!_isPlayed && _isLoaded)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 DOTween.Sequence()
              .Join(_startText.DOFade(0, 0.5f))
-             .Join(_image.DOFade(0, 1).OnComplete(() =>
-             {
-                 _director.Play();
-                 _startMusicTime = AudioSettings.dspTime;
-             }));
-
-                _isLoaded = false;
+             .Join(_image.DOFade(0, 1).OnComplete(() => _director.Play()));
+                _isPlayed = true;
             }
+        }
+        else if (_isPlayed)
+        {
+
         }
     }
 
     public double GetMusicTime()
     {
-        Debug.Log(AudioSettings.dspTime - _startMusicTime);
-        return AudioSettings.dspTime - _startMusicTime;
+        Debug.Log(_director.time);
+        return _director.time;
     }
 
     public void CheckHit(float noteTime)
@@ -108,7 +99,7 @@ public class GameManager : MonoBehaviour
         double currentTime = GetMusicTime();
         double difference = Mathf.Abs((float)(currentTime - noteTime));
 
-        if (difference <= 0.5f)
+        if (difference <= 0.1f)
         {
             Debug.Log("Nice!");
         }
