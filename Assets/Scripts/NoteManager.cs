@@ -1,7 +1,5 @@
-﻿using DG.Tweening.Core.Easing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static NoteData;
 
 public class NoteManager : MonoBehaviour
 {
@@ -10,7 +8,7 @@ public class NoteManager : MonoBehaviour
     [SerializeField] GameObject _notePrefab;
     [SerializeField] Canvas _canvas;
     [SerializeField] float _beatTime = 0.10715f;//ノーツの最短間隔(秒)
-    [SerializeField, Header("NoteMoveの_durationと同じ値")] float _spawnOffset = 2;
+    [SerializeField, Header("Noteの_durationと同じ値")] float _spawnOffset = 2;
     int _spawnCount = 0;
     List<(float time, Note note, GameObject obj)> _notes = new();
     void Start()

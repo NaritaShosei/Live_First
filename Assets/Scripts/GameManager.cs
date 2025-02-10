@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
     bool _isLoaded = false;
     [SerializeField] Image _image;
     [SerializeField] Text _startText;
+    public int Score { get => _score; }
+    int _score;
 
     async void Start()
     {
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour
     {
         if (!_isPlayed && _isLoaded)
         {
-            if (Input.anyKeyDown)
+            if (InputButton())
             {
                 DOTween.Sequence()
              .Join(_startText.DOFade(0, 0.5f))
@@ -101,11 +104,13 @@ public class GameManager : MonoBehaviour
         if (difference <= 0.05f)
         {
             Debug.Log("Perfect!");
+            _score += 1000;
             return HitType.perfect;
         }
         else if (difference <= 0.15f)
         {
             Debug.Log("Good");
+            _score += 500;
             return HitType.good;
         }
         else
