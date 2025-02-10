@@ -11,12 +11,12 @@ public class NoteManager : MonoBehaviour
     [SerializeField, Header("Noteの_durationと同じ値")] float _spawnOffset = 2;
     int _spawnCount = 0;
     int _comboCount = 0;
-    List<(float time, Note note, GameObject obj)> _notes = new();
+    List<(float time, Note note)> _notes = new();
     void Start()
     {
         foreach (var note in _data.ScoreNum)
         {
-            _notes.Add((note * _beatTime, null, null));
+            _notes.Add((note * _beatTime, null));
         }
     }
 
@@ -32,14 +32,14 @@ public class NoteManager : MonoBehaviour
                 {
                     Debug.LogWarning("Spawn");
                     var note = Instantiate(_notePrefab, _canvas.transform);
-                    _notes[_spawnCount] = (_notes[_spawnCount].time, note.GetComponent<Note>(), note);
+                    _notes[_spawnCount] = (_notes[_spawnCount].time, note.GetComponent<Note>());
                     _spawnCount++;
                 }
             }
             //成功判定
             foreach (var note in _notes)
             {
-                if (note.note != null && note.obj != null)
+                if (note.note != null)
                 {
                     if (!note.note.IsHit && Mathf.Abs((float)musicTime - note.time) <= 0.25f)
                     {
@@ -51,6 +51,7 @@ public class NoteManager : MonoBehaviour
                                 HitType.miss => 0,
                                 _ => _comboCount + 1,
                             };
+                            _gameManager.DrawComboCount(_comboCount);
                             note.note.ChangeImage(type);
                             note.note.IsHit = true;
                             break;
@@ -61,12 +62,13 @@ public class NoteManager : MonoBehaviour
             //おせなかったノーツの判定
             foreach (var note in _notes)
             {
-                if (note.note != null && note.obj != null)
+                if (note.note != null)
                 {
                     if (!note.note.IsHit && musicTime > note.time + 0.25f)
                     {
                         Debug.Log("Miss");
                         note.note.ChangeImage(HitType.miss);
+                        _gameManager.DrawComboCount(_comboCount);
                         _comboCount = 0;
                         note.note.IsHit = true;
                     }

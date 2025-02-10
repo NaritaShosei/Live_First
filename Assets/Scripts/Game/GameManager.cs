@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -17,12 +16,14 @@ public class GameManager : MonoBehaviour
     float _maxComboScale = 5;
     [SerializeField, Header("最大スコア倍率に到達するコンボ数")]
     int _maxComboCount = 50;
-    float _comboScale;
     [SerializeField]
     Image _image;
     [SerializeField]
     Text _startText;
-    public int Score { get => _score; }
+    [SerializeField]
+    Text _comboCountText;
+    [SerializeField]
+    Text _scoreText;
     int _score;
 
     async void Start()
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviour
         }
         else if (_isPlayed)
         {
-
+            _scoreText.text = _score.ToString("000000");
         }
     }
 
@@ -110,13 +111,13 @@ public class GameManager : MonoBehaviour
         float scale = _maxComboScale / _maxComboCount;
         if (difference <= 0.05f)
         {
-            _score += (int)(1000 * (1f + scale * comboCount));
+            AddScore((int)(1000 * (1f + Mathf.Min(scale * comboCount, _maxComboScale))));
             Debug.Log("Perfect!" + _score);
             return HitType.perfect;
         }
         else if (difference <= 0.15f)
         {
-            _score += (int)(500 * (1f + scale * comboCount));
+            AddScore((int)(500 * (1f + Mathf.Min(scale * comboCount, _maxComboScale))));
             Debug.Log("Good" + _score);
             return HitType.good;
         }
@@ -126,9 +127,27 @@ public class GameManager : MonoBehaviour
             return HitType.miss;
         }
     }
+    void AddScore(int score)
+    {
+        int current = _score;
+        DOTween.To(() => current, x => _score = x, current + score, 0.3f);
+    }
     public bool InputButton()
     {
         return Input.anyKeyDown;
+    }
+
+    public void DrawComboCount(int comboCount)
+    {
+        if (comboCount == 0)
+        {
+            _comboCountText.DOFade(0, 0.1f);
+        }
+        if (comboCount > 0)
+        {
+            _comboCountText.DOFade(1, 0.3f);
+            _comboCountText.text = comboCount.ToString();
+        }
     }
 
     public void LiveEnd()
@@ -137,6 +156,7 @@ public class GameManager : MonoBehaviour
         _image.DOFade(1, 1);
     }
 }
+
 public enum HitType
 {
     perfect,
