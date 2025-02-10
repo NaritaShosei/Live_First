@@ -91,6 +91,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _duration: 2
   _rectTransform: {fileID: 8903586854099914681}
+  IsHit: 0
+  _mainImage: {fileID: 6065407337630462381}
+  _subImage: {fileID: 2059854401032499427}
+  _perfectSprite: {fileID: 21300000, guid: 2585dfc3d89bfdd4798d570b8fc82d4e, type: 3}
+  _goodSprite: {fileID: 21300000, guid: 1c7940c1b7bf5bd46ae6089712671ba2, type: 3}
+  _missSprite: {fileID: 21300000, guid: 936449bec1a90a94abd5d03acb0ab0bc, type: 3}
 --- !u!1 &5752834597469533016
 GameObject:
   m_ObjectHideFlags: 0

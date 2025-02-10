@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         return _director.time;
     }
 
-    public void CheckHit(float noteTime)
+    public HitType CheckHit(float noteTime)
     {
         double currentTime = GetMusicTime();
         double difference = Mathf.Abs((float)(currentTime - noteTime));
@@ -101,14 +101,17 @@ public class GameManager : MonoBehaviour
         if (difference <= 0.05f)
         {
             Debug.Log("Perfect!");
+            return HitType.perfect;
         }
         else if (difference <= 0.15f)
         {
             Debug.Log("Good");
+            return HitType.good;
         }
         else
         {
             Debug.Log("Miss Hit");
+            return HitType.miss;
         }
     }
     public bool InputButton()
@@ -121,4 +124,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("LiveEnd");
         _image.DOFade(1, 1);
     }
+}
+public enum HitType
+{
+    perfect,
+    good,
+    miss,
 }

@@ -12,12 +12,12 @@ public class NoteManager : MonoBehaviour
     [SerializeField] float _beatTime = 0.10715f;//ノーツの最短間隔(秒)
     [SerializeField, Header("NoteMoveの_durationと同じ値")] float _spawnOffset = 2;
     int _spawnCount = 0;
-    Dictionary<float, NoteMove> _notes = new();
+    List<(float time, Note note, GameObject obj)> _notes = new();
     void Start()
     {
         foreach (var note in _data.ScoreNum)
         {
-            _notes.Add(note * _beatTime, null);
+            _notes.Add((note * _beatTime, null, null));
         }
     }
 
@@ -33,23 +33,23 @@ public class NoteManager : MonoBehaviour
                 {
                     Debug.LogWarning("Spawn");
                     var note = Instantiate(_notePrefab, _canvas.transform);
-                    _notes[targetTime] = note.GetComponent<NoteMove>();
+                    _notes[_spawnCount] = (_notes[_spawnCount].time, note.GetComponent<Note>(), note);
                     _spawnCount++;
                 }
             }
             //成功判定
             foreach (var note in _notes)
             {
-                if (note.Value != null)
+                if (note.note != null && note.obj != null)
                 {
-                    if (!note.Value.IsHit && Mathf.Abs((float)musicTime - note.Key) <= 0.25f)
+                    if (!note.note.IsHit && Mathf.Abs((float)musicTime - note.time) <= 0.25f)
                     {
                         if (_gameManager.InputButton())
                         {
-                            _gameManager.CheckHit(note.Key);
-
-                            note.Value.IsHit = true; 
-                            break; 
+                            var type = _gameManager.CheckHit(note.time);
+                            note.note.ChangeImage(type);
+                            note.note.IsHit = true;
+                            break;
                         }
                     }
                 }
@@ -57,12 +57,13 @@ public class NoteManager : MonoBehaviour
             //おせなかったノーツの判定
             foreach (var note in _notes)
             {
-                if (note.Value != null)
+                if (note.note != null && note.obj != null)
                 {
-                    if (!note.Value.IsHit && musicTime > note.Key + 0.25f)
+                    if (!note.note.IsHit && musicTime > note.time + 0.25f)
                     {
                         Debug.Log("Miss");
-                        note.Value.IsHit = true; 
+                        note.note.ChangeImage(HitType.miss);
+                        note.note.IsHit = true;
                     }
                 }
             }
