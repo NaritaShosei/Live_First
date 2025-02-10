@@ -13,8 +13,15 @@ public class GameManager : MonoBehaviour
     public bool IsPlayed { get => _isPlayed; }
     bool _isPlayed = false;
     bool _isLoaded = false;
-    [SerializeField] Image _image;
-    [SerializeField] Text _startText;
+    [SerializeField, Header("最大スコア倍率")]
+    float _maxComboScale = 5;
+    [SerializeField, Header("最大スコア倍率に到達するコンボ数")]
+    int _maxComboCount = 50;
+    float _comboScale;
+    [SerializeField]
+    Image _image;
+    [SerializeField]
+    Text _startText;
     public int Score { get => _score; }
     int _score;
 
@@ -96,21 +103,21 @@ public class GameManager : MonoBehaviour
         return _director.time;
     }
 
-    public HitType CheckHit(float noteTime)
+    public HitType CheckHit(float noteTime, int comboCount)
     {
         double currentTime = GetMusicTime();
         double difference = Mathf.Abs((float)(currentTime - noteTime));
-
+        float scale = _maxComboScale / _maxComboCount;
         if (difference <= 0.05f)
         {
-            Debug.Log("Perfect!");
-            _score += 1000;
+            _score += (int)(1000 * (1f + scale * comboCount));
+            Debug.Log("Perfect!" + _score);
             return HitType.perfect;
         }
         else if (difference <= 0.15f)
         {
-            Debug.Log("Good");
-            _score += 500;
+            _score += (int)(500 * (1f + scale * comboCount));
+            Debug.Log("Good" + _score);
             return HitType.good;
         }
         else

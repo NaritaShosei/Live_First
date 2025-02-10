@@ -710,6 +710,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _director: {fileID: 460397679}
+  _maxComboScale: 5
+  _maxComboCount: 50
   _image: {fileID: 812861037}
   _startText: {fileID: 685071541}
 --- !u!114 &460397682
