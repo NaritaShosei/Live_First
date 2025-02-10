@@ -1,16 +1,16 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 
 public class NoteMove : MonoBehaviour
 {
     [SerializeField] float _duration;
-    RectTransform _rectTransform;
+    [SerializeField] RectTransform _rectTransform;
+    public bool IsHit;
     private void Start()
     {
-        _rectTransform = GetComponent<RectTransform>();
-        var a = 745 / _duration;//Žn“_‚©‚ç”»’èƒ‰ƒCƒ“‚Ü‚Å“ž’B‚·‚é‘¬“x
-        var duration = 890 / a;//‘S‘Ì‚ÌŠ—vŽžŠÔ
+        var a = 745 / _duration;//å§‹ç‚¹ã‹ã‚‰åˆ¤å®šãƒ©ã‚¤ãƒ³ã¾ã§åˆ°é”ã™ã‚‹é€Ÿåº¦
+        var duration = 890 / a;//å…¨ä½“ã®æ‰€è¦æ™‚é–“
         _rectTransform.DOAnchorPosX(-445, duration).SetEase(Ease.Linear).OnComplete(() =>
         {
             Destroy(gameObject);

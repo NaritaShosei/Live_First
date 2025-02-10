@@ -11,20 +11,14 @@ public class NoteData : ScriptableObject
     public class InputJson
     {
         public Notes[] notes;
-        public int BPM;
     }
     [Serializable]
     public class Notes
     {
         public int num;
-        public int LPB;
     }
     public int[] ScoreNum { get => _scoreNum; }
     [SerializeField] int[] _scoreNum;
-    public int BPM { get => bpm; }
-    [SerializeField] int bpm;
-    public int LPB { get => lpb; }
-    [SerializeField] int lpb;
     private void Awake()
     {
         MusicReading();
@@ -36,8 +30,6 @@ public class NoteData : ScriptableObject
         InputJson inputJson = JsonUtility.FromJson<InputJson>(inputString);
 
         _scoreNum = new int[inputJson.notes.Length];
-        bpm = inputJson.BPM;
-        lpb = inputJson.notes[0].LPB;
 
         for (int i = 0; i < inputJson.notes.Length; i++)
         {

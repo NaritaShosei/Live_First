@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         await LoadTimeLineAudio(_director);
         await Task.Delay(1000);
 
-        _startText.DOFade(1, 1).OnComplete(() => _isLoaded = true);
+        _startText.DOFade(1, 0.5f).OnComplete(() => _isLoaded = true);
     }
 
     async Task LoadTimeLineAudio(PlayableDirector director)
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     {
         if (!_isPlayed && _isLoaded)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.anyKeyDown)
             {
                 DOTween.Sequence()
              .Join(_startText.DOFade(0, 0.5f))
@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
 
     public double GetMusicTime()
     {
-        Debug.Log(_director.time);
         return _director.time;
     }
 
@@ -99,14 +98,22 @@ public class GameManager : MonoBehaviour
         double currentTime = GetMusicTime();
         double difference = Mathf.Abs((float)(currentTime - noteTime));
 
-        if (difference <= 0.1f)
+        if (difference <= 0.05f)
         {
-            Debug.Log("Nice!");
+            Debug.Log("Perfect!");
+        }
+        else if (difference <= 0.15f)
+        {
+            Debug.Log("Good");
         }
         else
         {
-            Debug.Log("Miss...w");
+            Debug.Log("Miss Hit");
         }
+    }
+    public bool InputButton()
+    {
+        return Input.anyKeyDown;
     }
 
     public void LiveEnd()
