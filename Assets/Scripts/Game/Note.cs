@@ -9,7 +9,7 @@ public class Note : MonoBehaviour
     public bool IsHit;
     [SerializeField] Image _mainImage;
     [SerializeField] Image _subImage;
-    [SerializeField] Sprite _perfectSprite;
+    [SerializeField] Sprite _perfectSprite;//Listを使ったほうがいいかもしれないがわかりやすくするためにこうしている
     [SerializeField] Sprite _goodSprite;
     [SerializeField] Sprite _missSprite;
     private void Start()
