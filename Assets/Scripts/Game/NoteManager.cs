@@ -10,7 +10,6 @@ public class NoteManager : MonoBehaviour
     [SerializeField] float _beatTime = 0.10715f;//ノーツの最短間隔(秒)
     [SerializeField, Header("Noteの_durationと同じ値")] float _spawnOffset = 2;
     int _spawnCount = 0;
-    int _comboCount = 0;
     List<(float time, Note note)> _notes = new();
     void Start()
     {
@@ -45,13 +44,8 @@ public class NoteManager : MonoBehaviour
                     {
                         if (_gameManager.InputButton())
                         {
-                            var type = _gameManager.CheckHit(note.time, _comboCount);
-                            _comboCount = type switch
-                            {
-                                HitType.miss => 0,
-                                _ => _comboCount + 1,
-                            };
-                            _gameManager.DrawComboCount(_comboCount);
+                            var type = _gameManager.CheckHit(note.time);
+                            _gameManager.DrawComboCount();
                             note.note.ChangeImage(type);
                             note.note.IsHit = true;
                             break;
@@ -68,8 +62,7 @@ public class NoteManager : MonoBehaviour
                     {
                         Debug.Log("Miss");
                         note.note.ChangeImage(HitType.miss);
-                        _gameManager.DrawComboCount(_comboCount);
-                        _comboCount = 0;
+                        _gameManager.DrawComboCount();
                         note.note.IsHit = true;
                     }
                 }

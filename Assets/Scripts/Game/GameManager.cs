@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Text _scoreText;
     int _score;
-
+    int _comboCount;
     async void Start()
     {
         await LoadTimeLineAudio(_director);
@@ -104,26 +104,26 @@ public class GameManager : MonoBehaviour
         return _director.time;
     }
 
-    public HitType CheckHit(float noteTime, int comboCount)
+    public HitType CheckHit(float noteTime)
     {
         double currentTime = GetMusicTime();
         double difference = Mathf.Abs((float)(currentTime - noteTime));
         float scale = _maxComboScale / _maxComboCount;
         if (difference <= 0.05f)
         {
-            AddScore((int)(1000 * (1f + Mathf.Min(scale * comboCount, _maxComboScale))));
-            Debug.Log("Perfect!" + _score);
+            _comboCount++;
+            AddScore((int)(1000 * (1f + Mathf.Min(scale * _comboCount, _maxComboScale))));
             return HitType.perfect;
         }
         else if (difference <= 0.15f)
         {
-            AddScore((int)(500 * (1f + Mathf.Min(scale * comboCount, _maxComboScale))));
-            Debug.Log("Good" + _score);
+            _comboCount++;
+            AddScore((int)(500 * (1f + Mathf.Min(scale * _comboCount, _maxComboScale))));
             return HitType.good;
         }
         else
         {
-            Debug.Log("Miss Hit");
+            _comboCount = 0;
             return HitType.miss;
         }
     }
@@ -137,16 +137,16 @@ public class GameManager : MonoBehaviour
         return Input.anyKeyDown;
     }
 
-    public void DrawComboCount(int comboCount)
+    public void DrawComboCount()
     {
-        if (comboCount == 0)
+        if (_comboCount == 0)
         {
             _comboCountText.DOFade(0, 0.1f);
         }
-        if (comboCount > 0)
+        if (_comboCount > 0)
         {
             _comboCountText.DOFade(1, 0.3f);
-            _comboCountText.text = comboCount.ToString();
+            _comboCountText.text = _comboCount.ToString();
         }
     }
 
@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("LiveEnd");
         _image.DOFade(1, 1).OnComplete(() =>
         {
-            RankingManager.AddScore(_score);
+            ResultManager.AddScore(_score, _comboCount);
             SceneChangeManager.SceneChange(name);
         });
     }
