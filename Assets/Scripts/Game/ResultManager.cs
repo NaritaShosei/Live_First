@@ -59,7 +59,7 @@ public class ResultManager : MonoBehaviour
         }
         _yuko.sprite = sprite;
     }
-    void Save()
+    static void Save()
     {
         SaveData saveData = new SaveData()
         {
@@ -68,7 +68,7 @@ public class ResultManager : MonoBehaviour
         string data = JsonUtility.ToJson(saveData);
         PlayerPrefs.SetString(dataName, data);
     }
-    void Load()
+    static void Load()
     {
         string json = PlayerPrefs.GetString(dataName, "");
         SaveData saveData = JsonUtility.FromJson<SaveData>(json);
@@ -93,6 +93,10 @@ public class ResultManager : MonoBehaviour
     }
     public static void AddScore(int score, int combo)
     {
+        if (ScoreList == null)
+        {
+            Load();
+        }
         Combo = combo;
         Score = score;
         ScoreList.Add(score);
