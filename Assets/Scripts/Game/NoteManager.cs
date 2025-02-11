@@ -9,6 +9,10 @@ public class NoteManager : MonoBehaviour
     [SerializeField] Canvas _canvas;
     [SerializeField] float _beatTime = 0.10715f;//ノーツの最短間隔(秒)
     [SerializeField, Header("Noteの_durationと同じ値")] float _spawnOffset = 2;
+    [SerializeField]
+    AudioClip _audio;
+    [SerializeField]
+    AudioSource _audioSource;
     int _spawnCount = 0;
     List<(float time, Note note)> _notes = new();
     void Start()
@@ -44,8 +48,8 @@ public class NoteManager : MonoBehaviour
                     {
                         if (_gameManager.InputButton())
                         {
+                            _audioSource.PlayOneShot(_audio);
                             var type = _gameManager.CheckHit(note.time);
-                            _gameManager.DrawComboCount();
                             note.note.ChangeImage(type);
                             note.note.IsHit = true;
                             break;
@@ -62,7 +66,7 @@ public class NoteManager : MonoBehaviour
                     {
                         Debug.Log("Miss");
                         note.note.ChangeImage(HitType.miss);
-                        _gameManager.DrawComboCount();
+                        _gameManager.MissHit();
                         note.note.IsHit = true;
                     }
                 }

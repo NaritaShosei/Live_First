@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -21,11 +22,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Text _startText;
     [SerializeField]
-    Text _comboCountText;
+    TextMeshProUGUI _comboCountText;
     [SerializeField]
-    Text _scoreText;
+    TextMeshProUGUI _scoreText;
+    [SerializeField]
+    TextMeshProUGUI _typeText;
     int _score;
     int _comboCount;
+
     async void Start()
     {
         await LoadTimeLineAudio(_director);
@@ -109,23 +113,37 @@ public class GameManager : MonoBehaviour
         double currentTime = GetMusicTime();
         double difference = Mathf.Abs((float)(currentTime - noteTime));
         float scale = _maxComboScale / _maxComboCount;
+        var type = HitType.perfect;
         if (difference <= 0.05f)
         {
             _comboCount++;
             AddScore((int)(1000 * (1f + Mathf.Min(scale * _comboCount, _maxComboScale))));
-            return HitType.perfect;
+            type = HitType.perfect;
         }
         else if (difference <= 0.15f)
         {
             _comboCount++;
             AddScore((int)(500 * (1f + Mathf.Min(scale * _comboCount, _maxComboScale))));
-            return HitType.good;
+            type = HitType.good;
         }
         else
         {
             _comboCount = 0;
-            return HitType.miss;
+            type = HitType.miss;
         }
+        DrawHitType(type);
+        DrawComboCount();
+        return type;
+    }
+    void DrawHitType(HitType type)
+    {
+        string typeText = type switch
+        {
+            HitType.perfect => "Perfect!!",
+            HitType.good => "Good!",
+            HitType.miss => "Miss..."
+        };
+        _typeText.text = typeText;
     }
     void AddScore(int score)
     {
@@ -137,16 +155,22 @@ public class GameManager : MonoBehaviour
         return Input.anyKeyDown;
     }
 
+    public void MissHit()
+    {
+        _comboCount = 0;
+        DrawHitType(HitType.miss);
+        DrawComboCount();
+    }
     public void DrawComboCount()
     {
-        if (_comboCount == 0)
+        if (_comboCount < 10)
         {
             _comboCountText.DOFade(0, 0.1f);
         }
-        if (_comboCount > 0)
+        if (_comboCount >= 10)
         {
             _comboCountText.DOFade(1, 0.3f);
-            _comboCountText.text = _comboCount.ToString();
+            _comboCountText.text = $"{_comboCount}<size=25>combo</size>";
         }
     }
 
