@@ -1138,7 +1138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 920684987052089631, guid: 21cab6453ce9c4749850b2e0fd3ca4a6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1569188833085896144, guid: 21cab6453ce9c4749850b2e0fd3ca4a6, type: 3}
       propertyPath: m_ReceivesEvents
@@ -4549,6 +4549,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 137426665514631606, guid: eadd41f7c18839c46a054791e263e18b, type: 3}
       propertyPath: 'm_BlendShapeWeights.Array.data[6]'
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 137426665514631606, guid: eadd41f7c18839c46a054791e263e18b, type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[13]'
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
