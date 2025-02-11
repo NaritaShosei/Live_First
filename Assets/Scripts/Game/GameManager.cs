@@ -150,10 +150,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LiveEnd()
+    public void LiveEnd(string name)
     {
         Debug.Log("LiveEnd");
-        _image.DOFade(1, 1);
+        _image.DOFade(1, 1).OnComplete(() => SceneChangeManager.SceneChange(name));
     }
 }
 
