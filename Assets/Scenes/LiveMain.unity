@@ -743,7 +743,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Title
+            m_StringArgument: Ranking
             m_BoolArgument: 0
           m_CallState: 1
 --- !u!114 &460397683
@@ -1113,6 +1113,10 @@ PrefabInstance:
     - target: {fileID: 920684987052089631, guid: 21cab6453ce9c4749850b2e0fd3ca4a6, type: 3}
       propertyPath: m_Name
       value: NoteLineUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 920684987052089631, guid: 21cab6453ce9c4749850b2e0fd3ca4a6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1569188833085896144, guid: 21cab6453ce9c4749850b2e0fd3ca4a6, type: 3}
       propertyPath: m_ReceivesEvents
@@ -3935,15 +3939,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 95427079828222264, guid: eadd41f7c18839c46a054791e263e18b, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95427079828222264, guid: eadd41f7c18839c46a054791e263e18b, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'Character1_RightFoot'\n\tTransform 'Character1_LeftHandThumb3'\n\tTransform
-        'Character1_RightToeBase'\n\tTransform 'Character1_LeftFoot'\n\tTransform
-        'Character1_RightHandThumb1'\n\tTransform 'Character1_LeftHandIndex1'\n\tTransform
-        'Character1_LeftHandRing3'\n\tTransform 'Character1_RightHandRing2'\n\tTransform
-        'Character1_RightHandPinky3'\n\tTransform 'Character1_RightHand'\n\tand more
-        ..."
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 95427079828222264, guid: eadd41f7c18839c46a054791e263e18b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 137426665514631606, guid: eadd41f7c18839c46a054791e263e18b, type: 3}
       propertyPath: 'm_BlendShapeWeights.Array.data[2]'

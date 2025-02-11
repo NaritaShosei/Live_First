@@ -153,7 +153,11 @@ public class GameManager : MonoBehaviour
     public void LiveEnd(string name)
     {
         Debug.Log("LiveEnd");
-        _image.DOFade(1, 1).OnComplete(() => SceneChangeManager.SceneChange(name));
+        _image.DOFade(1, 1).OnComplete(() =>
+        {
+            RankingManager.AddScore(_score);
+            SceneChangeManager.SceneChange(name);
+        });
     }
 }
 
