@@ -143,11 +143,13 @@ public class GameManager : MonoBehaviour
             HitType.good => "Good!",
             HitType.miss => "Miss..."
         };
+        _typeText.transform.DOShakePosition(0.1f, 2, 10, 1, false, true);
         _typeText.text = typeText;
     }
     void AddScore(int score)
     {
         int current = _score;
+        _scoreText.transform.DOShakePosition(0.1f, 5, 10, 1, false, true);
         DOTween.To(() => current, x => _score = x, current + score, 0.3f);
     }
     public bool InputButton()
