@@ -41,7 +41,6 @@ public class PenLightManager : MonoBehaviour
                 _stickRendererList.Add(_stickBlockList[i].transform.GetChild(j).transform.GetChild(0).GetComponent<MeshRenderer>());
             }
         }
-        Debug.Log(_stickAnimList.Count);
     }
 
     void ChangeStick()

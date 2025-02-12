@@ -33,7 +33,6 @@ public class NoteManager : MonoBehaviour
                 var targetTime = _data.ScoreNum[_spawnCount] * _beatTime;
                 if (targetTime - _spawnOffset <= musicTime)
                 {
-                    Debug.LogWarning("Spawn");
                     var note = Instantiate(_notePrefab, _canvas.transform);
                     _notes[_spawnCount] = (_notes[_spawnCount].time, note.GetComponent<Note>());
                     _spawnCount++;
@@ -64,7 +63,6 @@ public class NoteManager : MonoBehaviour
                 {
                     if (!note.note.IsHit && musicTime > note.time + 0.25f)
                     {
-                        Debug.Log("Miss");
                         note.note.ChangeImage(HitType.miss);
                         _gameManager.MissHit();
                         note.note.IsHit = true;
