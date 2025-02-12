@@ -48,7 +48,7 @@ public class ResultManager : MonoBehaviour
         {
             sprite = _spriteList[1];
         }
-        else if (Score > 200000 && Combo != 114)
+        else if (Score >= 200000 && Combo != 114)
         {
             sprite = _spriteList[0];
         }
