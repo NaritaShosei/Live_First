@@ -1,6 +1,6 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -33,12 +33,12 @@ public class GameManager : MonoBehaviour
     async void Start()
     {
         await LoadTimeLineAudio(_director);
-        await Task.Delay(1000);
+        await UniTask.Delay(1000);
 
         _startText.DOFade(1, 0.5f).OnComplete(() => _isLoaded = true);
     }
 
-    async Task LoadTimeLineAudio(PlayableDirector director)
+    async UniTask LoadTimeLineAudio(PlayableDirector director)
     {
         if (director.playableAsset is TimelineAsset timeLine)
         {
@@ -63,26 +63,26 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            List<Task> loadTasks = new List<Task>();
+            List<UniTask> loadTasks = new List<UniTask>();
             foreach (var clip in audioSet)
             {
                 loadTasks.Add(LoadAudioClipsAsync(clip));
             }
 
-            await Task.WhenAll(loadTasks);
+            await UniTask.WhenAll(loadTasks);
         }
     }
 
-    async Task LoadAudioClipsAsync(AudioClip clip)
+    async UniTask LoadAudioClipsAsync(AudioClip clip)
     {
         if (clip == null) return;
         clip.LoadAudioData();
 
-        await Task.Yield();
+        await UniTask.Yield();
 
         while (!clip.isReadyToPlay)
         {
-            await Task.Delay(50);
+            await UniTask.Delay(50);
         }
     }
     void Update()
@@ -99,7 +99,9 @@ public class GameManager : MonoBehaviour
         }
         else if (_isPlayed)
         {
-            _scoreText.text = _score.ToString("000000");
+            var newText = _score.ToString("000000");
+            if (_scoreText.text != newText)
+                _scoreText.text = newText;
         }
     }
 
@@ -178,7 +180,6 @@ public class GameManager : MonoBehaviour
 
     public void LiveEnd(string name)
     {
-        Debug.Log("LiveEnd");
         _image.DOFade(1, 1).OnComplete(() =>
         {
             ResultManager.AddScore(_score, _comboCount);
