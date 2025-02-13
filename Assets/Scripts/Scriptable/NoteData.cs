@@ -11,29 +11,33 @@ public class NoteData : ScriptableObject
     public class InputJson
     {
         public Notes[] notes;
+        public int BPM;
     }
     [Serializable]
     public class Notes
     {
         public int num;
+        public int LPB;
     }
-    public int[] ScoreNum { get => _scoreNum; }
-    [SerializeField] int[] _scoreNum;
-    private void Awake()
-    {
-        MusicReading();
-    }
+    public float[] NotesTime { get => _notesTime; }
+    [SerializeField] float[] _notesTime;
+    [SerializeField] int _scoreLPB;
+    [SerializeField] int _scoreBPM;
+    [SerializeField] float _beatTime;
+
 
     void MusicReading()
     {
         string inputString = Resources.Load<TextAsset>("Unite In The Sky (short)").ToString();
         InputJson inputJson = JsonUtility.FromJson<InputJson>(inputString);
 
-        _scoreNum = new int[inputJson.notes.Length];
-
+        _notesTime = new float[inputJson.notes.Length];
+        _scoreBPM = inputJson.BPM;
+        _scoreLPB = inputJson.notes[0].LPB;
+        _beatTime = 60f / _scoreBPM / _scoreLPB;
         for (int i = 0; i < inputJson.notes.Length; i++)
         {
-            _scoreNum[i] = inputJson.notes[i].num;
+            _notesTime[i] = inputJson.notes[i].num * _beatTime;
         }
     }
 #if UNITY_EDITOR
