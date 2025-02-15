@@ -11,6 +11,7 @@ public class PenLightManager : MonoBehaviour
 
     [SerializeField, Range(0, 10)] float _interval = 2;
     float _timer;
+    bool _isVisible = false;
 
     void Start()
     {
@@ -20,10 +21,13 @@ public class PenLightManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.time > _timer + _interval)
+        if (_isVisible)
         {
-            _timer = Time.time;
-            ChangeStick();
+            if (Time.time > _timer + _interval)
+            {
+                _timer = Time.time;
+                ChangeStick();
+            }
         }
     }
 
@@ -55,5 +59,13 @@ public class PenLightManager : MonoBehaviour
                 index++;
             }
         }
+    }
+    private void OnEnable()
+    {
+        _isVisible = true;
+    }
+    private void OnDisable()
+    {
+        _isVisible = false;
     }
 }

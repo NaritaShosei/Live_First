@@ -33,12 +33,12 @@ public class GameManager : MonoBehaviour
     async void Start()
     {
         await LoadTimeLineAudio(_director);
-        await UniTask.Delay(1000);
+        await Awaitable.WaitForSecondsAsync(1);
 
         _startText.DOFade(1, 0.5f).OnComplete(() => _isLoaded = true);
     }
 
-    async UniTask LoadTimeLineAudio(PlayableDirector director)
+    async Awaitable LoadTimeLineAudio(PlayableDirector director)
     {
         if (director.playableAsset is TimelineAsset timeLine)
         {
@@ -63,26 +63,29 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            List<UniTask> loadTasks = new List<UniTask>();
+            List<Awaitable> loadTasks = new List<Awaitable>();
             foreach (var clip in audioSet)
             {
                 loadTasks.Add(LoadAudioClipsAsync(clip));
             }
 
-            await UniTask.WhenAll(loadTasks);
+            foreach (var task in loadTasks)
+            {
+                await task;
+            }
         }
     }
 
-    async UniTask LoadAudioClipsAsync(AudioClip clip)
+    async Awaitable LoadAudioClipsAsync(AudioClip clip)
     {
         if (clip == null) return;
         clip.LoadAudioData();
 
-        await UniTask.Yield();
+        await Awaitable.NextFrameAsync();
 
         while (!clip.isReadyToPlay)
         {
-            await UniTask.Delay(50);
+            await Awaitable.WaitForSecondsAsync(0.05f);
         }
     }
     void Update()

@@ -25,7 +25,7 @@ public class NoteData : ScriptableObject
     [SerializeField] int _scoreBPM;
     [SerializeField] float _beatTime;
 
-
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     void MusicReading()
     {
         string inputString = Resources.Load<TextAsset>("Unite In The Sky (short)").ToString();
